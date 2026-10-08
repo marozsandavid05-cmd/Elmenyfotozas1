@@ -1,0 +1,381 @@
+/* Élményfotózás · weboldal 2 · Posztó · site.js
+   Robusztusság: minden tartalom a CSS-ben látható. A JS csak a hajtás alatti elemeket rejti el
+   a belépőhöz, a GSAP csak degradálható extra (a nyomatok ledobása, a lapok kiosztása).
+   Mozgás nélkül (prefers-reduced-motion) minden kész, álló állapotban van; ?motion=1 felülírja. */
+(function () {
+  'use strict';
+  var D = document, H = D.documentElement;
+  var $ = function (s, c) { return (c || D).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || D).querySelectorAll(s)); };
+  var REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches && !H.classList.contains('motion-on');
+  var FINE = matchMedia('(pointer: fine)').matches;
+  var lenis = null;
+
+  /* ---------- Lenis: saját rAF, CSS-szabályok a lenis.css-ben ---------- */
+  function startLenis() {
+    if (REDUCE || !window.Lenis) return;
+    try {
+      lenis = new Lenis({ smoothWheel: true, syncTouch: false });
+      window.__lenis = lenis;
+      (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
+      if (window.ScrollTrigger) lenis.on('scroll', ScrollTrigger.update);
+    } catch (e) { lenis = null; }
+  }
+
+  /* ---------- fejléc: tömör háttér görgetésre, elrejtés lefelé (hiszterézissel) ---------- */
+  function initTop() {
+    var top = $('[data-top]'); if (!top) return;
+    var last = scrollY, acc = 0;
+    function on() {
+      var y = scrollY, d = y - last; last = y;
+      top.classList.toggle('is-solid', y > 40);
+      if (D.body.classList.contains('menu-open')) return;
+      acc = (d > 0) === (acc > 0) ? acc + d : d;
+      if (y < 120 || acc < -24) top.classList.remove('is-hidden');
+      else if (acc > 60 && !top.contains(D.activeElement)) top.classList.add('is-hidden');
+    }
+    addEventListener('scroll', on, { passive: true }); on();
+    top.addEventListener('focusin', function () { top.classList.remove('is-hidden'); });
+  }
+
+  /* ---------- mobil menü ---------- */
+  function initMenu() {
+    var b = $('.top__menu'), m = $('#menu'); if (!b || !m) return;
+    function set(open) {
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      b.textContent = open ? 'Bezár' : 'Menü';
+      m.hidden = !open;
+      D.body.classList.toggle('menu-open', open);
+      D.body.style.overflow = open ? 'hidden' : '';
+      if (lenis) open ? lenis.stop() : lenis.start();
+      if (open) { var a = $('a', m); if (a) a.focus(); } else b.focus();
+    }
+    b.addEventListener('click', function () { set(m.hidden); });
+    D.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !m.hidden) set(false); });
+  }
+
+  /* ---------- belépő: csak a hajtás alatti elemek indulnak rejtve ---------- */
+  function initReveal() {
+    var els = $$('[data-rv]'); if (!els.length || REDUCE || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target; io.unobserve(el);
+        el.classList.add('rv-in'); el.classList.remove('rv-hide');
+        setTimeout(function () { el.classList.remove('rv-in'); }, 900);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    els.forEach(function (el) {
+      if (el.getBoundingClientRect().top > innerHeight * 0.96) { el.classList.add('rv-hide'); io.observe(el); }
+    });
+    // háló: ha valami félúton ragadna (háttér-tab), mutatjuk
+    function net() { $$('.rv-hide').forEach(function (el) { if (el.getBoundingClientRect().top < innerHeight) el.classList.remove('rv-hide'); }); }
+    addEventListener('scroll', function () { clearTimeout(net.t); net.t = setTimeout(net, 700); }, { passive: true });
+    D.addEventListener('visibilitychange', net);
+  }
+
+  /* ============================================================
+     NYOMAT-ASZTAL (főoldali hero)
+     Elhelyezés méréssel: minden nyomatnak van egy kedvelt helye, a kereső a legközelebbi
+     olyan pontot adja, ahol az elforgatott doboz nem ér a címhez, szöveghez, gombhoz, tényekhez.
+     Ledobás: a nyomat a cím középpontjától SUGÁRIRÁNYBAN kifelé eső pontról érkezik, így a pályája
+     sosem keresztezi a címet. Húzás után, ha a nyomat kilóg a képből, rugóval visszajön.
+     ============================================================ */
+  function initTable() {
+    var table = $('#table'); if (!table) return;
+    var els = $$('.print', table);
+    var PD = [[.1, .27, 15, -7], [.9, .42, 15, 6], [.09, .74, 14, 5], [.82, .16, 10, -4], [.72, .8, 12, -3], [.28, .12, 9, 3]];
+    var PM = [[.2, .15, 34, -6], [.8, .16, 33, 5], [.2, .76, 30, 4], [.8, .75, 25, -5], [.5, .1, 0, 0], [.5, .1, 0, 0]];
+    var st = els.map(function () { return { x: 0, y: 0, r: 0, vx: 0, vy: 0, w: 0, h: 0, on: false }; });
+    var z = 20, obstTitle = null;
+    function rel(el, pad) {
+      var t = table.getBoundingClientRect(), r = el.getBoundingClientRect();
+      return { l: r.left - t.left - pad, t: r.top - t.top - pad, r: r.right - t.left + pad, b: r.bottom - t.top + pad };
+    }
+    function hit(a, b) { return a.l < b.r && a.r > b.l && a.t < b.b && a.b > b.t; }
+    function area(a, b) { return Math.max(0, Math.min(a.r, b.r) - Math.max(a.l, b.l)) * Math.max(0, Math.min(a.b, b.b) - Math.max(a.t, b.t)); }
+    function apply(el, s) { el.style.transform = 'translate3d(' + s.x + 'px,' + s.y + 'px,0) rotate(' + s.r + 'deg)'; }
+    function place() {
+      var W = table.clientWidth, H2 = table.clientHeight, mob = W < 641, P = mob ? PM : PD, pad = mob ? 10 : 18;
+      var obst = $$('.top__brand,.top__nav ul,.top__menu,.head h1,.head p,.head .btn,.facts dl,.facts .hint', D)
+        .filter(function (e) { return e.offsetParent && e.getBoundingClientRect().width; }).map(function (e) { return rel(e, pad); });
+      var h1 = $('.head h1', table); obstTitle = h1 ? rel(h1, 0) : null;
+      var taken = [];
+      els.forEach(function (el, i) {
+        var p = P[i], w0 = p[2], r = p[3], ok = null;
+        if (!w0) { el.style.display = 'none'; st[i].on = false; return; }
+        el.style.display = '';
+        var w = w0 * W / 100;
+        for (var tries = 0; tries < 7 && !ok; tries++, w *= .87) {
+          el.style.setProperty('--w', w + 'px'); el.style.transform = 'none';
+          var h = el.offsetHeight, rad = Math.abs(r) * Math.PI / 180;
+          var bw = w * Math.cos(rad) + h * Math.sin(rad), bh = w * Math.sin(rad) + h * Math.cos(rad);
+          var best = null, bd = 1e12;
+          for (var gy = 0; gy <= 40; gy++) for (var gx = 0; gx <= 40; gx++) {
+            var cx = bw / 2 + 8 + (W - bw - 16) * gx / 40, cy = bh / 2 + 8 + (H2 - bh - 16) * gy / 40;
+            var box = { l: cx - bw / 2, t: cy - bh / 2, r: cx + bw / 2, b: cy + bh / 2 };
+            if (obst.some(function (o) { return hit(box, o); })) continue;
+            if (taken.some(function (o) { return area(box, o) > .05 * bw * bh; })) continue;
+            var d = Math.pow(cx - p[0] * W, 2) + Math.pow(cy - p[1] * H2, 2);
+            if (d < bd) { bd = d; best = { cx: cx, cy: cy, box: box }; }
+          }
+          if (best && Math.sqrt(bd) < Math.max(W, H2) * .34) ok = { cx: best.cx, cy: best.cy, box: best.box, w: w, h: h };
+        }
+        if (!ok) { el.style.display = 'none'; st[i].on = false; return; }
+        taken.push(ok.box);
+        var s = st[i]; s.x = ok.cx - ok.w / 2; s.y = ok.cy - ok.h / 2; s.r = r; s.w = ok.w; s.h = ok.h; s.on = true; s.home = { x: s.x, y: s.y };
+        apply(el, s);
+      });
+      table.classList.add('is-placed');
+    }
+    place();
+    (D.fonts ? D.fonts.ready : Promise.resolve()).then(place);
+    var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(place, 120); });
+
+    /* húzás pointer-fizikával */
+    els.forEach(function (el, i) {
+      var drag = false, sx = 0, sy = 0, lx = 0, ly = 0, lt = 0;
+      el.addEventListener('pointerdown', function (e) {
+        if (e.button && e.button !== 0) return;
+        drag = true; el.setPointerCapture(e.pointerId); el.style.zIndex = ++z; el.classList.add('lift');
+        var s = st[i]; s.anim = false;
+        sx = e.clientX - s.x; sy = e.clientY - s.y; lx = e.clientX; ly = e.clientY; lt = performance.now(); s.vx = s.vy = 0;
+      });
+      el.addEventListener('pointermove', function (e) {
+        if (!drag) return;
+        var s = st[i], t = performance.now(), dt = Math.max(8, t - lt);
+        s.vx = (e.clientX - lx) / dt * 16; s.vy = (e.clientY - ly) / dt * 16; lx = e.clientX; ly = e.clientY; lt = t;
+        s.x = e.clientX - sx; s.y = e.clientY - sy; s.r += s.vx * .04; s.r = Math.max(-24, Math.min(24, s.r)); apply(el, s);
+      });
+      function up() { if (!drag) return; drag = false; el.classList.remove('lift'); settle(i); }
+      el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+      el.addEventListener('lostpointercapture', up);
+    });
+
+    /* elengedés után: tehetetlenség, majd rugó vissza a képen belülre */
+    function bounds(i) {
+      var s = st[i], el = els[i], W = table.clientWidth, H2 = table.clientHeight;
+      var w = el.offsetWidth, h = el.offsetHeight, rad = Math.abs(s.r) * Math.PI / 180;
+      var bw = w * Math.cos(rad) + h * Math.sin(rad), bh = w * Math.sin(rad) + h * Math.cos(rad);
+      var ox = (bw - w) / 2, oy = (bh - h) / 2, m = 8;
+      return { minX: ox + m, maxX: W - w - ox - m, minY: oy + m, maxY: H2 - h - oy - m };
+    }
+    function settle(i) {
+      var s = st[i], el = els[i]; s.anim = true;
+      if (REDUCE) { var b0 = bounds(i); s.x = Math.min(b0.maxX, Math.max(b0.minX, s.x)); s.y = Math.min(b0.maxY, Math.max(b0.minY, s.y)); apply(el, s); return; }
+      (function f() {
+        if (!s.anim) return;
+        var b = bounds(i);
+        s.vx *= .9; s.vy *= .9;
+        // rugó: ha a nyomat kilóg, a kilógás mértékével húz vissza
+        var ex = s.x < b.minX ? b.minX - s.x : (s.x > b.maxX ? b.maxX - s.x : 0);
+        var ey = s.y < b.minY ? b.minY - s.y : (s.y > b.maxY ? b.maxY - s.y : 0);
+        s.vx += ex * .09; s.vy += ey * .09;
+        if (ex) s.vx *= .82; if (ey) s.vy *= .82;
+        s.x += s.vx; s.y += s.vy; s.r += s.vx * .03; s.r = Math.max(-24, Math.min(24, s.r));
+        apply(el, s);
+        if (Math.abs(s.vx) + Math.abs(s.vy) > .08 || Math.abs(ex) + Math.abs(ey) > .5) requestAnimationFrame(f);
+        else { s.x += ex; s.y += ey; apply(el, s); s.anim = false; }
+      })();
+    }
+
+    /* ledobás: egyenes pálya a képen kívülről. Négy irányt próbálunk (a legközelebbi széltől
+       kezdve), és azt választjuk, amelynek a söpört sávja (a kezdő és a végső doboz uniója)
+       semmilyen szöveget, gombot, tényt nem metsz. Ha egyik sem tiszta, a nyomat helyben jelenik meg. */
+    function drop() {
+      if (REDUCE || !window.gsap || !obstTitle) return;
+      var W = table.clientWidth, H2 = table.clientHeight, pad = W < 641 ? 10 : 18;
+      var obst = $$('.top__brand,.top__nav ul,.top__menu,.head h1,.head p,.head .btn,.facts dl,.facts .hint', D)
+        .filter(function (e) { return e.offsetParent && e.getBoundingClientRect().width; }).map(function (e) { return rel(e, pad * .6); });
+      els.forEach(function (el, i) {
+        var s = st[i]; if (!s.on) return;
+        var rad = 22 * Math.PI / 180, bw = s.w * Math.cos(rad) + s.h * Math.sin(rad), bh = s.w * Math.sin(rad) + s.h * Math.cos(rad);
+        var cx = s.x + s.w / 2, cy = s.y + s.h / 2;
+        var fin = { l: cx - bw / 2, t: cy - bh / 2, r: cx + bw / 2, b: cy + bh / 2 };
+        var dirs = [
+          { d: cx, v: [-(fin.r + 30), 0] }, { d: W - cx, v: [W - fin.l + 30, 0] },
+          { d: cy, v: [0, -(fin.b + 30)] }, { d: H2 - cy, v: [0, H2 - fin.t + 30] }
+        ].sort(function (a, b) { return a.d - b.d; });
+        var pick = null;
+        for (var k = 0; k < dirs.length && !pick; k++) {
+          var v = dirs[k].v;
+          var sw = { l: Math.min(fin.l, fin.l + v[0]), r: Math.max(fin.r, fin.r + v[0]), t: Math.min(fin.t, fin.t + v[1]), b: Math.max(fin.b, fin.b + v[1]) };
+          if (!obst.some(function (o) { return hit(sw, o); })) pick = v;
+        }
+        var p = pick ? { x: s.x + pick[0], y: s.y + pick[1], r: s.r + (i % 2 ? -14 : 14), o: 1 } : { x: s.x, y: s.y + 14, r: s.r, o: 0 };
+        el.style.opacity = p.o; apply(el, p);
+        gsap.to(p, {
+          x: s.x, y: s.y, r: s.r, o: 1, duration: pick ? 1 : .6, delay: .12 + i * .12, ease: 'power3.out',
+          onUpdate: function () { if (!s.anim) { apply(el, p); el.style.opacity = p.o; } }
+        });
+      });
+      setTimeout(function () { els.forEach(function (el, i) { el.style.opacity = ''; if (st[i].on && !st[i].anim) apply(el, st[i]); }); table.classList.add('is-dropped'); }, 3200);
+    }
+    if (D.readyState === 'complete') drop(); else addEventListener('load', drop);
+  }
+
+  /* ---------- lapok kiosztása (főoldal): a kártyák a pakliból érkeznek, egyszer ---------- */
+  function initHand() {
+    var hand = $('[data-hand]'); if (!hand || REDUCE || !window.gsap || !('IntersectionObserver' in window)) return;
+    if (hand.getBoundingClientRect().top < innerHeight * .9) return;
+    var cards = $$('.card', hand);
+    var wide = innerWidth > 960;
+    gsap.set(cards, { opacity: 0, x: function (i) { return wide ? (1.5 - i) * 60 : 0; }, y: wide ? 90 : 40, rotation: function (i) { return wide ? (i - 1.5) * 7 : (i % 2 ? 2 : -2); } });
+    var io = new IntersectionObserver(function (ents) {
+      if (!ents[0].isIntersecting) return; io.disconnect();
+      gsap.to(cards, { opacity: 1, x: 0, y: 0, rotation: 0, duration: .9, ease: 'power3.out', stagger: .09, clearProps: 'transform,opacity' });
+    }, { threshold: .15 });
+    io.observe(hand);
+    setTimeout(function () { if (cards[0].style.opacity === '0' && hand.getBoundingClientRect().top < innerHeight) gsap.set(cards, { clearProps: 'all' }); }, 6000);
+  }
+
+  /* ---------- vízszintes nyomatsor: húzás egérrel, gombok ---------- */
+  function initStrips() {
+    $$('[data-strip]').forEach(function (wrap) {
+      var tr = $('.strip__track', wrap), prev = $('[data-prev]', wrap.parentNode), next = $('[data-next]', wrap.parentNode);
+      if (!tr) return;
+      function step(dir) { var it = $('.print', tr); var w = it ? it.getBoundingClientRect().width + 20 : 300; tr.scrollBy({ left: dir * w, behavior: REDUCE ? 'auto' : 'smooth' }); }
+      if (prev) prev.addEventListener('click', function () { step(-1); });
+      if (next) next.addEventListener('click', function () { step(1); });
+      if (!FINE) return;
+      var down = false, sx = 0, sl = 0, moved = 0;
+      tr.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') return; down = true; moved = 0; sx = e.clientX; sl = tr.scrollLeft; tr.classList.add('is-drag'); });
+      addEventListener('pointermove', function (e) { if (!down) return; moved = Math.abs(e.clientX - sx); tr.scrollLeft = sl - (e.clientX - sx); });
+      addEventListener('pointerup', function () { if (!down) return; down = false; tr.classList.remove('is-drag'); });
+      tr.addEventListener('click', function (e) { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } }, true);
+      tr.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    });
+  }
+
+  /* ---------- Selfiebox: lépések és a keret képe együtt vált ---------- */
+  function initHow() {
+    var steps = $$('[data-step]'), imgs = $$('.how__stack img'), cap = $('[data-how-cap]');
+    if (!steps.length || !imgs.length) return;
+    function set(n) {
+      steps.forEach(function (s, i) { s.classList.toggle('on', i === n); });
+      imgs.forEach(function (im, i) { im.classList.toggle('on', i === n); });
+      if (cap) cap.textContent = (n + 1) + ' / ' + steps.length + ' · ' + steps[n].getAttribute('data-step');
+    }
+    set(0);
+    if (!('IntersectionObserver' in window)) { steps.forEach(function (s) { s.classList.add('on'); }); return; }
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) { if (e.isIntersecting) set(steps.indexOf(e.target)); });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    steps.forEach(function (s) { io.observe(s); });
+  }
+
+  /* ---------- Hátterek: nagy nézet (dialog) ---------- */
+  function initViewer() {
+    var dlg = $('#viewer'); if (!dlg || typeof dlg.showModal !== 'function') return;
+    var sw = $$('.swatch'), img = $('img', dlg), ttl = $('[data-v-title]', dlg), link = $('[data-v-link]', dlg), cur = 0, opener = null;
+    function show(i) {
+      cur = (i + sw.length) % sw.length;
+      var s = sw[cur], n = s.getAttribute('data-n');
+      img.src = s.getAttribute('data-big'); img.alt = $('img', s).alt;
+      ttl.textContent = n + '. háttér';
+      link.href = 'ajanlatkeres.html?eszkoz=selfiebox&hatter=' + n;
+    }
+    sw.forEach(function (s, i) {
+      s.addEventListener('click', function () { opener = s; show(i); dlg.showModal(); if (lenis) lenis.stop(); });
+    });
+    $('[data-v-prev]', dlg).addEventListener('click', function () { show(cur - 1); });
+    $('[data-v-next]', dlg).addEventListener('click', function () { show(cur + 1); });
+    $('[data-v-x]', dlg).addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+    dlg.addEventListener('close', function () { if (lenis) lenis.start(); if (opener) opener.focus(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+  }
+
+  /* ---------- Ajánlatkérés: URL-előtöltés, feltételes mezők, ellenőrzés, küldés ---------- */
+  function initForm() {
+    var form = $('[data-form]'); if (!form) return;
+    var q = new URLSearchParams(location.search);
+    function svc() { var c = $('input[name="eszkoz"]:checked', form); return c ? c.value : ''; }
+    function cond() {
+      var v = svc();
+      $$('[data-when]', form).forEach(function (el) {
+        var on = el.getAttribute('data-when').split(' ').indexOf(v) > -1;
+        el.hidden = !on; $$('input,select,textarea', el).forEach(function (x) { x.disabled = !on; });
+      });
+    }
+    var e0 = q.get('eszkoz'); if (e0) { var r = $('input[name="eszkoz"][value="' + e0 + '"]', form); if (r) r.checked = true; }
+    $$('input[name="eszkoz"]', form).forEach(function (r) { r.addEventListener('change', cond); });
+    cond();
+    var ora = q.get('ora'); if (ora) $$('select[name="idotartam"]', form).forEach(function (s) { if ($('option[value="' + ora + ' óra"]', s)) s.value = ora + ' óra'; });
+    var jel = q.get('jelleg'); if (jel) { var js = $('select[name="jelleg"]', form); if (js) js.value = jel; }
+    var bsz = q.get('beszelgetes'); if (bsz) { var bs = $('select[name="beszelgetes"]', form); if (bs) bs.value = bsz; }
+    var hat = q.get('hatter'); if (hat) { var hs = $('select[name="hatter"]', form); if (hs) hs.value = hat + '. háttér'; }
+    function check(f) {
+      var x = $('input,select,textarea', f); if (!x || x.disabled) return true;
+      var ok = x.type === 'email' ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x.value.trim()) : x.type === 'tel' ? x.value.replace(/\D/g, '').length >= 8 : !!x.value.trim();
+      f.classList.toggle('bad', !ok); x.setAttribute('aria-invalid', ok ? 'false' : 'true'); return ok;
+    }
+    $$('.f[data-req]', form).forEach(function (f) { var x = $('input,select,textarea', f); if (x) x.addEventListener('blur', function () { check(f); }); });
+    form.addEventListener('submit', function (e) {
+      var bad = $$('.f[data-req]', form).filter(function (f) { return !check(f); });
+      var cons = $('input[name="hozzajarulas"]', form), cw = cons && cons.closest('.consent');
+      if (cons && !cons.checked) { bad.push(cw); cw.classList.add('bad'); } else if (cw) cw.classList.remove('bad');
+      if (bad.length) { e.preventDefault(); var x = $('input,select,textarea', bad[0]); if (x) x.focus(); return; }
+      var key = $('input[name="access_key"]', form).value;
+      if (location.protocol === 'file:' || !key || /IDE_JON/.test(key)) {
+        e.preventDefault();
+        var fd = new FormData(form), lines = [];
+        fd.forEach(function (v, k) { if (['access_key', 'redirect', 'subject', 'botcheck', 'hozzajarulas'].indexOf(k) < 0 && v) lines.push(k + ': ' + v); });
+        var note = $('[data-form-note]', form); note.hidden = false;
+        location.href = 'mailto:hello@elmenyfotozas.hu?subject=' + encodeURIComponent('Ajánlatkérés a weboldalról') + '&body=' + encodeURIComponent(lines.join('\n'));
+      }
+    });
+    var red = $('input[name="redirect"]', form);
+    if (red && /^https?:/.test(location.protocol)) red.value = location.href.replace(/[^/]*$/, 'koszonjuk.html');
+  }
+
+
+  /* ---------- Rendezvényfotózás: kontaktlap vízszintes szakaszként (pin nélkül, sticky + rAF-lerp) ---------- */
+  function initSheet() {
+    var sec = $('[data-sheet]'); if (!sec) return;
+    var tr = $('.sheet__track', sec), prev = $('[data-sprev]', sec), next = $('[data-snext]', sec);
+    var mq = matchMedia('(min-width: 961px)'), on = false, dist = 0, cur = 0, tgt = 0, raf = 0;
+    function step(dir) {
+      var it = $('.print', tr), w = it ? it.getBoundingClientRect().width + 24 : 320;
+      if (on) {
+        var top = sec.getBoundingClientRect().top + scrollY, span = sec.offsetHeight - innerHeight;
+        var y = top + Math.max(0, Math.min(span, (-cur + dir * w) / dist * span));
+        if (lenis) lenis.scrollTo(y); else scrollTo({ top: y, behavior: REDUCE ? 'auto' : 'smooth' });
+      } else tr.scrollBy({ left: dir * w, behavior: REDUCE ? 'auto' : 'smooth' });
+    }
+    if (prev) prev.addEventListener('click', function () { step(-1); });
+    if (next) next.addEventListener('click', function () { step(1); });
+    function measure() {
+      on = mq.matches && !REDUCE;
+      sec.classList.toggle('is-h', on);
+      if (!on) { tr.style.transform = ''; sec.style.removeProperty('--hh'); return; }
+      dist = Math.max(0, tr.scrollWidth - innerWidth);
+      sec.style.setProperty('--hh', (innerHeight + dist) + 'px');
+    }
+    function loop() {
+      raf = 0; if (!on) return;
+      var r = sec.getBoundingClientRect(), span = sec.offsetHeight - innerHeight;
+      var p = span > 0 ? Math.max(0, Math.min(1, -r.top / span)) : 0;
+      tgt = -p * dist; cur += (tgt - cur) * .14;
+      if (Math.abs(tgt - cur) < .3) cur = tgt;
+      tr.style.transform = 'translate3d(' + cur.toFixed(1) + 'px,0,0)';
+      if (cur !== tgt) raf = requestAnimationFrame(loop);
+    }
+    function kick() { if (!raf && on) raf = requestAnimationFrame(loop); }
+    measure(); kick();
+    addEventListener('scroll', kick, { passive: true });
+    addEventListener('resize', function () { measure(); kick(); });
+    addEventListener('load', function () { measure(); kick(); });
+    // billentyű: a sávra fókuszálva a nyilak lapoznak
+    tr.addEventListener('keydown', function (e) { if (!on) return; if (e.key === 'ArrowRight') { e.preventDefault(); step(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); } });
+    // fókuszált kép behúzása a látható sávba
+    tr.addEventListener('focusin', function (e) { if (on && e.target !== tr) e.target.scrollIntoView({ block: 'nearest', inline: 'nearest' }); });
+  }
+
+  function boot() {
+    initTop(); initMenu(); initTable(); initReveal(); initHand(); initStrips(); initHow(); initViewer(); initForm(); initSheet();
+    startLenis();
+    if (window.ScrollTrigger) { gsap.registerPlugin(ScrollTrigger); ScrollTrigger.config({ ignoreMobileResize: true }); }
+  }
+  if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', boot); else boot();
+})();

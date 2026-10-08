@@ -1,0 +1,8 @@
+# Belső munkaanyag, nem az oldal része (lokálisan megmarad)
+_kepek/
+prototipusok/
+OLVASS-EL.md
+ART-DIRECTION.md
+node_modules/
+.DS_Store
+Thumbs.db

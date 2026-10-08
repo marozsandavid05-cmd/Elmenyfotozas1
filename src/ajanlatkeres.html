@@ -1,0 +1,65 @@
+<!--{"title":"Ajánlatkérés rendezvényre · Élményfotózás","desc":"Kérjen ajánlatot Selfieboxra, AI Selfie-re, Pixie robotra vagy rendezvényfotósra. Egy perc kitölteni, rövid időn belül válaszolunk telefonon vagy e-mailben.","nav":"aj","body":"p-aj","og":"k-par","ld":{"@context":"https://schema.org","@type":"ContactPage","name":"Ajánlatkérés","url":"https://elmenyfotozas.hu/ajanlatkeres","about":{"@id":"https://elmenyfotozas.hu/#ceg"}}}-->
+<section class="aj" aria-labelledby="aj-cim">
+  <div class="wrap aj__grid">
+    <div class="aj__side">
+      <h1 class="d1" id="aj-cim">Mesélje el <em>az estét</em></h1>
+      <p class="lead mute">Egy perc kitölteni. Ha gyorsabb, hívjon, és telefonon megbeszéljük.</p>
+      <p class="aj__tel">{{tel1}}{{tel2}}</p>
+      <a class="tlink" href="mailto:hello@elmenyfotozas.hu">hello@elmenyfotozas.hu</a>
+      <ul>
+        <li>Országos kiszállás</li>
+        <li>Kezdés előtt kb. 1 órával érkezünk</li>
+        <li>A helyszíni feltételek a <a class="tlink" href="tudnivalok.html">technikai tudnivalóknál</a></li>
+      </ul>
+    </div>
+
+    <form class="slip" data-form action="https://api.web3forms.com/submit" method="POST" novalidate aria-labelledby="aj-lap">
+      <div class="slip__head"><h2 id="aj-lap">Ajánlatkérő lap</h2><span>minden mező kötelező, kivéve a megjegyzést</span></div>
+      <input type="hidden" name="access_key" value="IDE_JON_A_WEB3FORMS_KULCS">
+      <input type="hidden" name="subject" value="Ajánlatkérés az elmenyfotozas.hu oldalról">
+      <input type="hidden" name="redirect" value="">
+      <input type="checkbox" name="botcheck" class="vh" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <fieldset>
+        <legend>Mit kér a rendezvényre?</legend>
+        <div class="chips">
+          <label><input type="radio" name="eszkoz" value="selfiebox" checked><span>Selfiebox</span></label>
+          <label><input type="radio" name="eszkoz" value="ai"><span>AI Selfie</span></label>
+          <label><input type="radio" name="eszkoz" value="pixie"><span>Pixie robot</span></label>
+          <label><input type="radio" name="eszkoz" value="foto"><span>Rendezvényfotós</span></label>
+        </div>
+      </fieldset>
+
+      <div class="row2">
+        <div class="f" data-req data-when="selfiebox ai pixie"><label for="f-ido">Bérlési idő</label>
+          <select id="f-ido" name="idotartam"><option value="">Válasszon</option><option value="3 óra">3 óra</option><option value="5 óra">5 óra</option><option value="7 óra">7 óra</option><option value="egyedi óra">Egyedi időtartam</option></select>
+          <p class="err">Válasszon időtartamot.</p></div>
+        <div class="f" data-req data-when="foto"><label for="f-jelleg">A rendezvény jellege</label>
+          <select id="f-jelleg" name="jelleg"><option value="">Válasszon</option><option>Céges rendezvény</option><option>Rendezvénysorozat</option><option>Konferencia</option><option>Workshop</option><option>Családi esemény</option></select>
+          <p class="err">Válassza ki a rendezvény jellegét.</p></div>
+        <div class="f" data-when="pixie"><label for="f-beszel">Beszélgető funkció</label>
+          <select id="f-beszel" name="beszelgetes"><option value="nem">Nem kérem</option><option value="igen">Igen, kérem</option></select></div>
+        <div class="f" data-when="selfiebox ai"><label for="f-hatter">Háttér</label>
+          <select id="f-hatter" name="hatter"><option value="egyszínű">Egyszínű háttér</option><option>01. háttér</option><option>02. háttér</option><option>03. háttér</option><option>04. háttér</option><option>05. háttér</option><option>06. háttér</option><option>07. háttér</option><option>08. háttér</option><option>09. háttér</option><option>10. háttér</option><option>11. háttér</option><option>12. háttér</option></select>
+          <p class="help"><a class="tlink" href="hatterek.html">A hátterek megtekintése</a></p></div>
+      </div>
+
+      <div class="row2">
+        <div class="f" data-req><label for="f-datum">A rendezvény dátuma</label><input id="f-datum" name="datum" type="date"><p class="err">Adja meg a dátumot.</p></div>
+        <div class="f" data-req><label for="f-hely">Helyszín, település</label><input id="f-hely" name="helyszin" type="text" autocomplete="address-level2"><p class="err">Adja meg a helyszínt.</p></div>
+      </div>
+      <div class="f" data-req><label for="f-nev">Név</label><input id="f-nev" name="nev" type="text" autocomplete="name"><p class="err">Adja meg a nevét.</p></div>
+      <div class="row2">
+        <div class="f" data-req><label for="f-mail">E-mail</label><input id="f-mail" name="email" type="email" autocomplete="email" spellcheck="false" aria-describedby="e-mail"><p class="err" id="e-mail">Adjon meg egy érvényes e-mail címet.</p></div>
+        <div class="f" data-req><label for="f-tel">Telefon</label><input id="f-tel" name="telefon" type="tel" autocomplete="tel"><p class="err">Adjon meg egy telefonszámot.</p></div>
+      </div>
+      <div class="f"><label for="f-msg">Megjegyzés <span class="req">(nem kötelező)</span></label><textarea id="f-msg" name="uzenet" rows="4"></textarea><p class="help">Várható létszám, program, bármi, ami segít.</p></div>
+
+      <label class="consent f"><input type="checkbox" name="hozzajarulas" value="igen"><span>Elolvastam az <a class="tlink" href="adatkezeles.html">adatkezelési tájékoztatót</a>, és hozzájárulok, hogy az ajánlathoz felhasználják az adataimat.</span></label>
+      <p class="err consent__err" aria-live="polite">Az ajánlatkéréshez fogadja el az adatkezelési tájékoztatót.</p>
+
+      <button class="btn" type="submit">Ajánlatot kérek {{i:arrow-right}}</button>
+      <p class="slip__note" data-form-note hidden>Az ajánlatkérő levél megnyílt a levelezőjében, csak el kell küldenie. Ha nem nyílt meg, írjon a hello@elmenyfotozas.hu címre.</p>
+    </form>
+  </div>
+</section>

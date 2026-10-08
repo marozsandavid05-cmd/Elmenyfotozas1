@@ -1,0 +1,1200 @@
+{
+ "h-kalap": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-01.webp",
+  "out": [
+   [
+    "h-kalap-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "h-kalap-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "h-csapat": {
+  "w": 1100,
+  "h": 825,
+  "src": "Pixie-rendezvenyen-09.webp",
+  "out": [
+   [
+    "h-csapat-1100.webp",
+    1100,
+    825
+   ],
+   [
+    "h-csapat-700.webp",
+    700,
+    525
+   ]
+  ]
+ },
+ "h-lufi": {
+  "w": 675,
+  "h": 900,
+  "src": "Pixie-a-Nobu-etteremben-03.webp",
+  "out": [
+   [
+    "h-lufi-675.webp",
+    675,
+    900
+   ]
+  ]
+ },
+ "h-kellek": {
+  "w": 1280,
+  "h": 853,
+  "src": "029-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "h-kellek-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "h-kellek-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "h-eskuvo": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-07.webp",
+  "out": [
+   [
+    "h-eskuvo-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "h-eskuvo-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "h-fiu": {
+  "w": 1100,
+  "h": 1467,
+  "src": "Pixie-rendezvenyen-08.webp",
+  "out": [
+   [
+    "h-fiu-1100.webp",
+    1100,
+    1467
+   ],
+   [
+    "h-fiu-700.webp",
+    700,
+    934
+   ]
+  ]
+ },
+ "i-pixie": {
+  "w": 800,
+  "h": 800,
+  "src": "Pixie-2000x2000-1.webp",
+  "out": [
+   [
+    "i-pixie-800.webp",
+    800,
+    800
+   ]
+  ]
+ },
+ "i-ai": {
+  "w": 800,
+  "h": 800,
+  "src": "AI-PRO-1-1.webp",
+  "out": [
+   [
+    "i-ai-800.webp",
+    800,
+    800
+   ]
+  ]
+ },
+ "i-box": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-03.webp",
+  "out": [
+   [
+    "i-box-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "i-box-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "i-foto": {
+  "w": 1280,
+  "h": 854,
+  "src": "043-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "i-foto-1280.webp",
+    1280,
+    854
+   ],
+   [
+    "i-foto-800.webp",
+    800,
+    534
+   ]
+  ]
+ },
+ "i-gala": {
+  "w": 1280,
+  "h": 854,
+  "src": "031-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "i-gala-1280.webp",
+    1280,
+    854
+   ],
+   [
+    "i-gala-800.webp",
+    800,
+    534
+   ]
+  ]
+ },
+ "x-nobu-1": {
+  "w": 675,
+  "h": 900,
+  "src": "Pixie-a-Nobu-etteremben-01.webp",
+  "out": [
+   [
+    "x-nobu-1-675.webp",
+    675,
+    900
+   ]
+  ]
+ },
+ "x-nobu-2": {
+  "w": 675,
+  "h": 900,
+  "src": "Pixie-a-Nobu-etteremben-02.webp",
+  "out": [
+   [
+    "x-nobu-2-675.webp",
+    675,
+    900
+   ]
+  ]
+ },
+ "x-nobu-4": {
+  "w": 675,
+  "h": 900,
+  "src": "Pixie-a-Nobu-etteremben-04.webp",
+  "out": [
+   [
+    "x-nobu-4-675.webp",
+    675,
+    900
+   ]
+  ]
+ },
+ "x-nobu-5": {
+  "w": 675,
+  "h": 900,
+  "src": "Pixie-a-Nobu-etteremben-05.webp",
+  "out": [
+   [
+    "x-nobu-5-675.webp",
+    675,
+    900
+   ]
+  ]
+ },
+ "x-nobu-6": {
+  "w": 675,
+  "h": 900,
+  "src": "Pixie-a-Nobu-etteremben-06.webp",
+  "out": [
+   [
+    "x-nobu-6-675.webp",
+    675,
+    900
+   ]
+  ]
+ },
+ "x-nobu-7": {
+  "w": 675,
+  "h": 900,
+  "src": "Pixie-a-Nobu-etteremben-07.webp",
+  "out": [
+   [
+    "x-nobu-7-675.webp",
+    675,
+    900
+   ]
+  ]
+ },
+ "x-lany": {
+  "w": 1100,
+  "h": 1956,
+  "src": "Pixie-rendezvenyen-01.webp",
+  "out": [
+   [
+    "x-lany-1100.webp",
+    1100,
+    1956
+   ],
+   [
+    "x-lany-700.webp",
+    700,
+    1245
+   ]
+  ]
+ },
+ "x-csapat": {
+  "w": 1100,
+  "h": 825,
+  "src": "Pixie-rendezvenyen-10.webp",
+  "out": [
+   [
+    "x-csapat-1100.webp",
+    1100,
+    825
+   ],
+   [
+    "x-csapat-700.webp",
+    700,
+    525
+   ]
+  ]
+ },
+ "x-kint-1": {
+  "w": 1100,
+  "h": 1467,
+  "src": "Pixie-rendezvenyen-03.webp",
+  "out": [
+   [
+    "x-kint-1-1100.webp",
+    1100,
+    1467
+   ],
+   [
+    "x-kint-1-700.webp",
+    700,
+    934
+   ]
+  ]
+ },
+ "x-kint-2": {
+  "w": 1100,
+  "h": 1467,
+  "src": "Pixie-rendezvenyen-07.webp",
+  "out": [
+   [
+    "x-kint-2-1100.webp",
+    1100,
+    1467
+   ],
+   [
+    "x-kint-2-700.webp",
+    700,
+    934
+   ]
+  ]
+ },
+ "x-video": {
+  "w": 1920,
+  "h": 780,
+  "src": "Pixie-1920_780.webp",
+  "out": [
+   [
+    "x-video-1600.webp",
+    1600,
+    650
+   ],
+   [
+    "x-video-800.webp",
+    800,
+    325
+   ]
+  ]
+ },
+ "x-studio": {
+  "w": 800,
+  "h": 1067,
+  "src": "Pixie-1500x2000-1.webp",
+  "out": [
+   [
+    "x-studio-800.webp",
+    800,
+    1067
+   ]
+  ]
+ },
+ "a-allvany": {
+  "w": 1080,
+  "h": 1920,
+  "src": "AI-PRO-02.webp",
+  "out": [
+   [
+    "a-allvany-1080.webp",
+    1080,
+    1920
+   ],
+   [
+    "a-allvany-700.webp",
+    700,
+    1244
+   ]
+  ]
+ },
+ "a-hos": {
+  "w": 600,
+  "h": 892,
+  "src": "ai-selfie-pro-01.webp",
+  "out": [
+   [
+    "a-hos-600.webp",
+    600,
+    892
+   ]
+  ]
+ },
+ "a-vampir": {
+  "w": 600,
+  "h": 892,
+  "src": "ai-selfie-pro-02.webp",
+  "out": [
+   [
+    "a-vampir-600.webp",
+    600,
+    892
+   ]
+  ]
+ },
+ "a-szeles": {
+  "w": 1920,
+  "h": 1080,
+  "src": "AI-PRO-02-FHD.webp",
+  "out": [
+   [
+    "a-szeles-1600.webp",
+    1600,
+    900
+   ],
+   [
+    "a-szeles-800.webp",
+    800,
+    450
+   ]
+  ]
+ },
+ "s-rozsa": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-02.webp",
+  "out": [
+   [
+    "s-rozsa-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-rozsa-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-szeles": {
+  "w": 1920,
+  "h": 780,
+  "src": "Selfiebox-1920x780-1.webp",
+  "out": [
+   [
+    "s-szeles-1600.webp",
+    1600,
+    650
+   ],
+   [
+    "s-szeles-800.webp",
+    800,
+    325
+   ]
+  ]
+ },
+ "s-maszk": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-06.webp",
+  "out": [
+   [
+    "s-maszk-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-maszk-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-ketten": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-04.webp",
+  "out": [
+   [
+    "s-ketten-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-ketten-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-erintes": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-14.webp",
+  "out": [
+   [
+    "s-erintes-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-erintes-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-szamlalo": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-13.webp",
+  "out": [
+   [
+    "s-szamlalo-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-szamlalo-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-kollazs": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-09.webp",
+  "out": [
+   [
+    "s-kollazs-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-kollazs-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-kezben": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-08.webp",
+  "out": [
+   [
+    "s-kezben-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-kezben-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-harom": {
+  "w": 1200,
+  "h": 700,
+  "src": "SelfieBoxok.webp",
+  "out": [
+   [
+    "s-harom-1200.webp",
+    1200,
+    700
+   ],
+   [
+    "s-harom-800.webp",
+    800,
+    467
+   ]
+  ]
+ },
+ "s-k1": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-10.webp",
+  "out": [
+   [
+    "s-k1-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-k1-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-k2": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-12.webp",
+  "out": [
+   [
+    "s-k2-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-k2-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-k3": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-11.webp",
+  "out": [
+   [
+    "s-k3-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-k3-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "s-k4": {
+  "w": 1200,
+  "h": 800,
+  "src": "Selfiebox-galeria-05.webp",
+  "out": [
+   [
+    "s-k4-1200.webp",
+    1200,
+    800
+   ],
+   [
+    "s-k4-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-fust": {
+  "w": 1280,
+  "h": 853,
+  "src": "007-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-fust-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-fust-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-mc": {
+  "w": 1280,
+  "h": 853,
+  "src": "004-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-mc-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-mc-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-zenekar": {
+  "w": 1280,
+  "h": 853,
+  "src": "005-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-zenekar-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-zenekar-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-feher": {
+  "w": 1280,
+  "h": 853,
+  "src": "006-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-feher-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-feher-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-terem": {
+  "w": 1280,
+  "h": 853,
+  "src": "008-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-terem-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-terem-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-tuz": {
+  "w": 1280,
+  "h": 853,
+  "src": "009-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-tuz-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-tuz-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-regatta": {
+  "w": 1280,
+  "h": 853,
+  "src": "012-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-regatta-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-regatta-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-spi": {
+  "w": 1024,
+  "h": 683,
+  "src": "040-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-spi-1024.webp",
+    1024,
+    683
+   ],
+   [
+    "r-spi-700.webp",
+    700,
+    467
+   ]
+  ]
+ },
+ "r-sushi": {
+  "w": 1280,
+  "h": 854,
+  "src": "021-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-sushi-1280.webp",
+    1280,
+    854
+   ],
+   [
+    "r-sushi-800.webp",
+    800,
+    534
+   ]
+  ]
+ },
+ "r-fozes": {
+  "w": 1280,
+  "h": 853,
+  "src": "038-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-fozes-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-fozes-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-napszemuveg": {
+  "w": 1280,
+  "h": 854,
+  "src": "027-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-napszemuveg-1280.webp",
+    1280,
+    854
+   ],
+   [
+    "r-napszemuveg-800.webp",
+    800,
+    534
+   ]
+  ]
+ },
+ "r-kifuto": {
+  "w": 1280,
+  "h": 853,
+  "src": "032-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-kifuto-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-kifuto-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-palota": {
+  "w": 1280,
+  "h": 853,
+  "src": "033-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-palota-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-palota-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-panel": {
+  "w": 1280,
+  "h": 853,
+  "src": "035-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-panel-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-panel-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-birkozo": {
+  "w": 1280,
+  "h": 853,
+  "src": "024-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-birkozo-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-birkozo-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-uszoda": {
+  "w": 1280,
+  "h": 853,
+  "src": "028-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-uszoda-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-uszoda-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-sup": {
+  "w": 1280,
+  "h": 853,
+  "src": "016-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-sup-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-sup-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "r-tomeg": {
+  "w": 1280,
+  "h": 854,
+  "src": "026-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-tomeg-1280.webp",
+    1280,
+    854
+   ],
+   [
+    "r-tomeg-800.webp",
+    800,
+    534
+   ]
+  ]
+ },
+ "r-jelmez": {
+  "w": 1280,
+  "h": 853,
+  "src": "002-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "r-jelmez-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "r-jelmez-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "t-pixie": {
+  "w": 1125,
+  "h": 2000,
+  "src": "Pixie-9-16.webp",
+  "out": [
+   [
+    "t-pixie-1125.webp",
+    1125,
+    2000
+   ],
+   [
+    "t-pixie-800.webp",
+    800,
+    1422
+   ]
+  ]
+ },
+ "k-par": {
+  "w": 1280,
+  "h": 853,
+  "src": "019-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "k-par-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "k-par-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "e-bohoc": {
+  "w": 1280,
+  "h": 853,
+  "src": "037-rendezvenyfotozas-elmenyfotozas-hu.webp",
+  "out": [
+   [
+    "e-bohoc-1280.webp",
+    1280,
+    853
+   ],
+   [
+    "e-bohoc-800.webp",
+    800,
+    533
+   ]
+  ]
+ },
+ "hatter-01": {
+  "w": 800,
+  "h": 800,
+  "src": "01-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-01-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-01-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-02": {
+  "w": 800,
+  "h": 800,
+  "src": "02-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-02-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-02-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-03": {
+  "w": 800,
+  "h": 800,
+  "src": "03-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-03-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-03-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-04": {
+  "w": 800,
+  "h": 800,
+  "src": "04-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-04-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-04-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-05": {
+  "w": 800,
+  "h": 800,
+  "src": "05-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-05-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-05-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-06": {
+  "w": 800,
+  "h": 800,
+  "src": "06-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-06-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-06-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-07": {
+  "w": 800,
+  "h": 800,
+  "src": "07-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-07-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-07-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-08": {
+  "w": 800,
+  "h": 800,
+  "src": "08-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-08-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-08-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-09": {
+  "w": 800,
+  "h": 800,
+  "src": "09-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-09-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-09-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-10": {
+  "w": 800,
+  "h": 800,
+  "src": "10-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-10-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-10-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-11": {
+  "w": 800,
+  "h": 800,
+  "src": "11-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-11-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-11-400.webp",
+    400,
+    400
+   ]
+  ]
+ },
+ "hatter-12": {
+  "w": 800,
+  "h": 800,
+  "src": "12-Elmenyfotozas-Hatterek.webp",
+  "out": [
+   [
+    "hatter-12-800.webp",
+    800,
+    800
+   ],
+   [
+    "hatter-12-400.webp",
+    400,
+    400
+   ]
+  ]
+ }
+}
